@@ -10,7 +10,6 @@
                     <attribute name="required" type="boolean"/>
                     <attribute name="modifiable" type="boolean" default="true"/>
                     <attribute name="expression" type="token"/>
-                    <attribute name="expression" type="token"/>
                     <attribute name="defaultExpression" type="token"/>
                     <attribute name="defaultValue" type="token"/>
                 </extension>
