@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns:holmes="http://www.nianien.com/holmes" xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.nianien.com/holmes" elementFormDefault="qualified">
+
+    <element name="field">
+        <complexType>
+            <simpleContent>
+                <extension base="token">
+                    <attribute name="name" type="token" use="required"/>
+                    <attribute name="required" type="boolean"/>
+                    <attribute name="modifiable" type="boolean" default="true"/>
+                    <attribute name="expression" type="token"/>
+                    <attribute name="defaultExpression" type="token"/>
+                    <attribute name="defaultValue" type="token"/>
+                    <attribute name="split" type="boolean" default="false"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="fields">
+        <complexType>
+            <sequence>
+                <element ref="holmes:field" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="key-field" type="token" use="required"/>
+            <attribute name="version-field" type="token"/>
+            <attribute name="state-field" type="token" />
+            <attribute name="sub-state-field" type="token" />
+            <attribute name="shard-field" type="token" use="required"/>
+            <attribute name="shards" type="int" use="required"/>
+            <attribute name="foreign-field" type="token"/>
+        </complexType>
+        <unique name="field-Unique">
+            <selector xpath=".//holmes:field"/>
+            <field xpath="@name"/>
+        </unique>
+    </element>
+
+    <element name="include">
+        <complexType>
+            <simpleContent>
+                <extension base="token">
+                    <attribute name="path" type="token" use="required"/>
+                    <attribute name="test" type="token"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+
+    <element name="exclude">
+        <complexType>
+            <simpleContent>
+                <extension base="token">
+                    <attribute name="path" type="token" use="required"/>
+                    <attribute name="test" type="token"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+
+    <element name="if">
+        <complexType>
+            <sequence>
+                <element ref="holmes:include" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="holmes:exclude" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="holmes:if" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="test" type="token" use="required"/>
+        </complexType>
+    </element>
+    <element name="replace">
+        <complexType>
+            <simpleContent>
+                <extension base="token">
+                    <attribute name="from" type="token" use="required"/>
+                    <attribute name="to" type="token" use="required"/>
+                    <attribute name="test" type="token"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="audit">
+        <complexType>
+            <sequence>
+                <element ref="holmes:include" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="holmes:exclude" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="holmes:if" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="holmes:replace" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="type" type="token" use="required"/>
+        </complexType>
+    </element>
+    <element name="state">
+        <complexType>
+            <sequence>
+                <element name="case" minOccurs="0" maxOccurs="unbounded">
+                    <complexType>
+                        <simpleContent>
+                            <extension base="token">
+                                <attribute name="exp" type="token" use="required"/>
+                                <attribute name="value" type="token" use="required"/>
+                            </extension>
+                        </simpleContent>
+                    </complexType>
+                </element>
+                <element name="default" minOccurs="0" maxOccurs="1">
+                    <complexType>
+                        <simpleContent>
+                            <extension base="token">
+                                <attribute name="value" type="token" use="required"/>
+                            </extension>
+                        </simpleContent>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="rule">
+        <complexType>
+            <sequence>
+                <element ref="holmes:audit" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="holmes:state" minOccurs="0"/>
+            </sequence>
+        </complexType>
+        <unique name="audit-Unique">
+            <selector xpath=".//holmes:audit"/>
+            <field xpath="@type"/>
+        </unique>
+    </element>
+
+    <element name="holmes">
+        <complexType>
+            <sequence>
+                <element name="entity" minOccurs="0" maxOccurs="unbounded">
+                    <complexType>
+                        <sequence>
+                            <element ref="holmes:fields"/>
+                            <element ref="holmes:rule" minOccurs="0"/>
+                        </sequence>
+                        <attribute name="class" type="token" use="required"/>
+                        <attribute name="type" type="token" use="required"/>
+                        <attribute name="test" type="token"/>
+                        <attribute name="collection" type="token"/>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>
