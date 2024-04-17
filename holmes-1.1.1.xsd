@@ -28,7 +28,10 @@
             <attribute name="sub-state-field" type="token" />
             <attribute name="shard-field" type="token" use="required"/>
             <attribute name="shards" type="int" use="required"/>
-            <attribute name="foreign-field" type="token"/>
+            <attribute name="audit-type-num"  type="int"/>
+            <attribute name="send-manual-task"  type="int"/>
+            <attribute name="table-shard-expression" type="token"/>
+            <attribute name="database-shard-expressiond" type="token"/>
         </complexType>
         <unique name="field-Unique">
             <selector xpath=".//holmes:field"/>
@@ -42,6 +45,9 @@
                 <extension base="token">
                     <attribute name="path" type="token" use="required"/>
                     <attribute name="test" type="token"/>
+                    <attribute name="audit" type="token"/>
+                    <attribute name="diff" type="token"/>
+                    <attribute name="content-type" type="token"/>
                 </extension>
             </simpleContent>
         </complexType>
