@@ -147,6 +147,7 @@
                         <attribute name="type" type="token" use="required"/>
                         <attribute name="test" type="token"/>
                         <attribute name="collection" type="token"/>
+                        <attribute name="binding-output" type="token"/>
                     </complexType>
                 </element>
             </sequence>
